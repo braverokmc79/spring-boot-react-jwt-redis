@@ -31,11 +31,14 @@ public class CustomAuthenticationEntryPoint extends RuntimeException implements 
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
         
-        log.info("=========  JwtAuthenticationEntryPoint getMessage  : {}", authException.getMessage());
-        log.info("=========  JwtAuthenticationEntryPoint getMessage  : {}", request.getContentType());
+        log.info("=========  1.JwtAuthenticationEntryPoint getMessage  : {}", authException.getMessage());
+        log.info("=========  2.JwtAuthenticationEntryPoint getMessage  : {}", request.getContentType());
+
 
         //예외 페이지가 아니고, json 타입이 아닌 경우  세션 페이지로 에러 페이지 이동처리
-        if (JwtAuthenticationFilter.exclusionPages(request) && !request.getContentType().equals("application/json")) {
+        if (JwtAuthenticationFilter.exclusionPages(request) &&
+                StringUtils.hasText(request.getContentType()) &&
+                !request.getContentType().equals("application/json")) {
             response.sendRedirect(sessionErrorPage(authException.getMessage(), response));
             return;
         }
@@ -44,7 +47,7 @@ public class CustomAuthenticationEntryPoint extends RuntimeException implements 
         String errorCode =(String) request.getAttribute("errorCode");
         String message =(String) request.getAttribute("message");
 
-        log.info("******* JwtAuthenticationEntryPoint  토큰 필터 에러 처리 : errorCode :{} , message :{}  ",errorCode, message);
+        log.info("******* 3.JwtAuthenticationEntryPoint  토큰 필터 에러 처리 : errorCode :{} , message :{}  ",errorCode, message);
         if(StringUtils.hasText(errorCode) ||
                 ( StringUtils.hasText(authException.getMessage()) &&
                 org.thymeleaf.util.StringUtils.contains(authException.getMessage(),"authentication") )){
