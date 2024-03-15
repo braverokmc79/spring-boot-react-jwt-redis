@@ -6,7 +6,7 @@ if(hostname ==="localhost"){
     backendHost="http://localhost:5000";
 
 }else{
-    backendHost="http://localhost:5000";
+    backendHost="http://realserver:5000";
 }
 
 export const API_BASE_URL =backendHost;
