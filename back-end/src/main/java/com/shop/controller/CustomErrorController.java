@@ -2,6 +2,7 @@ package com.shop.controller;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(value = "/error")
+@Log4j2
 public class CustomErrorController implements ErrorController {
     private final String VIEW_PATH = "errors/";
 
@@ -17,11 +19,11 @@ public class CustomErrorController implements ErrorController {
     @GetMapping
     public String handleError(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        System.out.println(" 1statusCode  ===> 에러 코더 " +status);
+        Object message = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
 
         if(status != null){
             int statusCode = Integer.valueOf(status.toString());
-            System.out.println("2 statusCode  ===> 에러 코더 " +statusCode);
+            log.warn(">>>>>>>>> statusCode  ===> 에러 코더:{}, 에러 메시지:{} ",status,message);
 
             if(statusCode == HttpStatus.NOT_FOUND.value() || statusCode==HttpStatus.UNAUTHORIZED.value()){
                 return VIEW_PATH + "404";
@@ -30,7 +32,7 @@ public class CustomErrorController implements ErrorController {
                 return VIEW_PATH + "500";
             }
         }
-        return "error";
+        return VIEW_PATH +"error";
     }
 
     @GetMapping(value = "404")
@@ -46,3 +48,5 @@ public class CustomErrorController implements ErrorController {
 
 
 }
+
+

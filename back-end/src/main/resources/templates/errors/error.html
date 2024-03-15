@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>404 Error</title>
+    <link rel='stylesheet' href='https://rawcdn.githack.com/SochavaAG/example-mycode/master/_common/css/reset.css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/braverokmc79/erroPage@1.0.0/assets/css/404_type1.css'>
+
+</head>
+<body translate="no" >
+<div class="ag-page-404">
+    <div class="errorPage" style="text-align: center">
+        <span class="errorHead">Error!</span><br />
+        <p th:text="${'path: ' + path}"></p>
+        <p th:text="${'status: ' + status}"></p>
+        <p th:text="${'timestamp: ' + timestamp}"></p>
+        <p th:text="${'error: ' + error}"></p>
+        <p th:text="${'errors: ' + errors}"></p>
+        <p th:text="${'exception: ' + exception}"></p>
+        <p th:text="${'message: ' + message}"></p>
+        <p th:text="${'trace: ' + trace}"></p>
+    </div>
+</div>
+
+<div style="text-align: center;">
+    <button class="mybutton" onclick="location.href='/'">Home</button>
+</div>
+<script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+<script id="rendered-js" src='https://cdn.jsdelivr.net/gh/braverokmc79/erroPage@1.0.0/assets/js/404_type1.js' ></script>
+</body>
+</html>

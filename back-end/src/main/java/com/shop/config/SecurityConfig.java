@@ -46,11 +46,22 @@ public class SecurityConfig  {
             c.ignoringRequestMatchers("/admin/**","/api/**", "/oauth2/**" ,"/error/**");
         });
 
-        //http.headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+        //1.csrf 사용하지 않을 경우 다음과 같이 설정
+        //http.csrf(AbstractHttpConfigurer::disable);
+
+        //2. h2 접근 및 iframe 접근을 위한 SameOrigin (프레임 허용) & 보안 강화 설정 할경우
         http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+        // 다른 도메인 간에 프레임(Frame)을 허용하려면 X-Frame-Options 헤더를 비활성화(disable)
+        //http.headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
 
-        //이 프로젝트는  세션 + JWT 를 사용하지 때문에 주석
+        //3.HTTP 기본 인증 만 할경우 다음과 같이 처리
+        //httpSecurity.formLogin(AbstractHttpConfigurer::disable);
+
+        //3.jwt token 만 인증 처리 할경우  basic 인증을 disable 한다. 그러나 이 프로젝트는 세션+jwt 이라 disable 설정은 하지 않는다.
+        //httpSecurity.httpBasic(AbstractHttpConfigurer::disable);
+
+        //4.JWT 만 사용할경우 세션 관리 상태 없음 설정 그러나, 이 프로젝트는  세션 + JWT 를 사용하지 때문에 주석
         //http.sessionManagement(sessionManagementConfigurer ->sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 
@@ -68,9 +79,10 @@ public class SecurityConfig  {
                 .requestMatchers("/css/**", "/js/**", "/img/**","/images/**").permitAll()
                 .requestMatchers("/", "/members/**", "/item/**", "/main/**", "/error/**" ).permitAll()
 
-                 //JWT 일반 접속 설정
-                .requestMatchers("/api/todo/**").permitAll()
-                .requestMatchers(  "/api/auth/signup","/api/auth/signin" , "/api/auth/reissue", "/api/auth/logout").permitAll()
+                //JWT 일반 접속 설정
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/api/todo/**" ,"/api/auth/**").permitAll()
+
                 //JWT 관리자 페이지 설정
                 .requestMatchers( "/api/admin/**").hasAuthority("ADMIN")
 
@@ -79,8 +91,6 @@ public class SecurityConfig  {
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
         );
-        //.exceptionHandling(exceptionConfig->exceptionConfig.authenticationEntryPoint(new CustomAuthenticationEntryPoint()));
-
 
 
          //=======api 페이지만  JWT  필터 설정(jwtAuthenticationFilter 에서 shouldNotFilter 메서드로 세션 페이지는 필터를 제외 시켰다.)
