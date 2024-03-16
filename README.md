@@ -72,3 +72,18 @@ $ auth 1234
 $ get a
 
 ```
+
+
+# 리액트에서 인스톨시 [Error] npm install 후 reify~ 프리징 오류가 날경우
+다음과 같이 설치한다.
+```
+$ npm install --verbose
+
+```
+##### 참조 : <a href="https://stackoverflow.com/questions/16873973/npm-install-hangs"> https://stackoverflow.com/questions/16873973/npm-install-hangs </a>
+
+
+
+
+
+
