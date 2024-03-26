@@ -66,16 +66,19 @@ public class JwtTokenUtil {
         //Date now = new Date();  now.getTime() 으로 하면 오류
         Date expireDate = new Date(System.currentTimeMillis() + expireTime);
 
-                //JWT Token 생성
+        //JWT Token 생성
         return Jwts.builder()
                 .setClaims(claim)
                 .signWith(getSecretKey())  //토큰 서명 설정
-                .setSubject(String.valueOf(memberId))
-                .setIssuer("macaronics app")
-                .setIssuedAt(new Date())
-                .setExpiration(expireDate)
+
+                //payload 에 들어갈 내용
+                .setSubject(String.valueOf(memberId)) //sub
+                .setIssuer("macaronics app") //iss
+                .setIssuedAt(new Date()) //iat
+                .setExpiration(expireDate) //exp
                 .compact(); //문자열로 압축
     }
+    
 
     //5.접근 토큰 생성
     public String generateAccessToken(Long memberId, long expireTime) {
