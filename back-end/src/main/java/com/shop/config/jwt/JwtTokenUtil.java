@@ -48,9 +48,8 @@ public class JwtTokenUtil {
 
     //3.토큰을 이용하여 유저아이디값 가져오기  반환값 id
     public String getUsername(String token) {
-        return extractAllClaims(token).get("memberId", String.class);
+        return String.valueOf(extractAllClaims(token).get("memberId"));
     }
-
 
     /**
      * 4. 토큰 생성
